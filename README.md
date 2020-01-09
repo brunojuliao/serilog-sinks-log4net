@@ -1,12 +1,13 @@
 # Serilog.Sinks.Log4Net
 
-[![Build status](https://ci.appveyor.com/api/projects/status/bi8o8f5jteqvb0e5/branch/master?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-log4net/branch/master)
-[![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Log4Net.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Log4Net/)
+I was having issues using the package in .Net Standard 2.0 (being consumed by a .Net Core 2.1 console app). Even though everything was set up correctly, no log was seen in any appender configured in log4net.Config.
+Then I noticed that on LogManager.GetRepository (used to setup based on the file) I was passing the entry assembly. On the original's source, it only used the logger name to get the Logger, even though the Core version of Log4Net requires a Repository (either an assembly for a string). My guess is that this difference in implementation was causing the Logger to return nothing.
+I then tested my theoretical fix. It worked. I am then forking the repo, updating the readme and later will redo my changes and commit here :)
 
 Duplicates Serilog events through the log4net pipeline to allow integration with existing code and libraries.
 
 **Package** - [Serilog.Sinks.Log4Net](http://nuget.org/packages/serilog.sinks.log4net)
-| **Platforms** - .NET 4.5
+| **Platforms** - .NET Standard 2.0
 
 ```csharp
 var log = new LoggerConfiguration()
